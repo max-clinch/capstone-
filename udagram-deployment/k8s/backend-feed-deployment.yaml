@@ -1,0 +1,79 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  labels:
+    service: backend-feed
+  name: backend-feed
+spec:
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        service: backend-feed
+    spec:
+      containers:
+        - image: khomeafegbua/capstone-restapi-user
+          name: backend-feed
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: '64Mi'
+              cpu: '250m'
+            limits:
+              memory: '1024Mi'
+              cpu: '500m'
+          env:
+            - name: 'http://localhost:8100'
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: 'http://localhost:8100'
+            - name: go-cloud-dev
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: go-cloud-dev
+            - name: serverless
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: serverless
+            - name: us-east-1
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: us-east-1
+            - name: hellow
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: hellow
+            - name: khome-dev
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: khome-dev
+            - name: khome-dev.cr9cvmnikkno.us-east-1.rds.amazonaws.com
+              valueFrom:
+                configMapKeyRef:
+                  name: env-config
+                  key: khome-dev.cr9cvmnikkno.us-east-1.rds.amazonaws.com
+            - name: khomeafegbua
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: khomeafegbua
+            - name: postgres
+              valueFrom:
+                secretKeyRef:
+                  name: env-secret
+                  key: postgres
+          volumeMounts:
+            - name: aws-secret
+              mountPath: '/root/.aws/'
+              readOnly: true
+      restartPolicy: Always
+      volumes:
+        - name: aws-secret
+          secret:
+            secretName: aws-secret

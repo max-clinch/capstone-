@@ -1,0 +1,18 @@
+version: '3'
+services:
+  reverseproxy:
+    build:
+      context: .
+    image: khomeafegbua/capstone-reverseproxy
+  backend_user:
+    build:
+      context: ../../udagram-restapi-user
+    image: khomeafegbua/capstone-restapi-user
+  backend_feed:
+    build:
+      context: ../../udagram-restapi-feed
+    image: khomeafegbua/capstone-restapi-feed
+  frontend:
+    build:
+      context: ../../udagram-frontend
+    image: khomeafegbua/capstone-frontend:local

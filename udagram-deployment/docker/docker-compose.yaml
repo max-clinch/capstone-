@@ -1,0 +1,40 @@
+version: '3'
+services:
+  reverseproxy:
+    image: khomeafegbua/capstone-reverseproxy
+    ports:
+      - 8080:8080
+    restart: always
+    depends_on:
+      - backend-user
+      - backend-feed
+  backend-user:
+    image: khomeafegbua/capstone-restapi-user
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: khomeafegbua
+      POSTGRES_DB: khome-dev
+      POSTGRES_HOST: khome-dev.cr9cvmnikkno.us-east-1.rds.amazonaws.com
+      AWS_REGION: us-east-1
+      AWS_PROFILE: serverless
+      AWS_BUCKET: go-cloud-dev
+      JWT_SECRET: hellow
+      URL: 'http://localhost:8100'
+  backend-feed:
+    image: khomeafegbua/capstone-restapi-feed
+    volumes:
+      - $HOME/.aws:/root/.aws
+    environment:
+      POSTGRES_USERNAME: postgres
+      POSTGRES_PASSWORD: khomeafegbua
+      POSTGRES_DB: khome-dev
+      POSTGRES_HOST: khome-dev.cr9cvmnikkno.us-east-1.rds.amazonaws.com
+      AWS_REGION: us-east-1
+      AWS_PROFILE: us-east-1
+      AWS_BUCKET: go-cloud-dev
+      JWT_SECRET: hellow
+      URL: 'http://localhost:8100'
+  frontend:
+    image: khomeafegbua/capstone-frontend:local
+    ports:
+      - '8100:80'
