@@ -197,4 +197,4 @@ POSTGRESS_HOST=<postgress db instance hostname>
 
 ## Authors
 
-* **[khomeafegbua](https://github.com/max-clinch)** - *Initial work* - [Udagram Image Filtering Microservice](https://github.com/max-clinch/capstone-.git)
+* **[khomeafegbua](https://github.com/max-clinch)** - *Initial work* - [Udagram Image Filtering Microservice](https://github.com/max-clinch/micro-service.git)
